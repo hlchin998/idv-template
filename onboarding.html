@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        accent: {
+                            DEFAULT: '#2563eb',
+                            hover: '#1d4ed8',
+                        },
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        surface: {
+                            DEFAULT: '#ffffff',
+                            muted: '#f8fafc',
+                            border: '#e2e8f0',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'float': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { font-family: 'Inter', sans-serif; }
+
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.2s ease;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
+        .upload-zone.uploaded {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+            border-style: solid;
+        }
+
+        .professional-card {
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .professional-card:hover {
+            border-color: #93c5fd;
+            background-color: #eff6ff;
+        }
+        .professional-card.selected {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
+
+        .step-circle {
+            transition: all 0.3s ease;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-slide {
+            animation: slideIn 0.35s ease forwards;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .checkbox-custom {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .checkbox-custom:checked {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        .checkbox-custom:checked::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 0px;
+            width: 6px;
+            height: 10px;
+            border: 2px solid white;
+            border-top: none;
+            border-left: none;
+            transform: rotate(45deg);
+        }
+        .checkbox-custom:hover {
+            border-color: #2563eb;
+        }
+    </style>
+</head>
+<body class="m-0 p-0 bg-gray-50 text-brand-900 min-h-screen">
+
+    <!-- Top Bar -->
+    <header id="header" class="h-16 bg-white border-b border-surface-border flex items-center justify-between px-6 lg:px-10 sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-brand-900 rounded-md flex items-center justify-center text-white">
+                <i class="fa-solid fa-shield-halved text-sm"></i>
+            </div>
+            <span class="font-semibold text-brand-900 text-sm tracking-tight">IDVerify Enterprise</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="#" class="text-sm text-brand-500 hover:text-brand-900 transition-colors flex items-center gap-1.5">
+                <i class="fa-regular fa-life-ring text-xs"></i>
+                <span class="hidden sm:inline">Need help?</span>
+            </a>
+            <a href="#" class="text-sm text-brand-500 hover:text-brand-900 transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+                <span class="hidden sm:inline">Sign out</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Onboarding Layout -->
+    <main id="onboarding-main" class="flex flex-col lg:flex-row min-h-[calc(100vh-64px)]">
+
+        <!-- Left Sidebar - Progress -->
+        <aside id="onboarding-sidebar" class="lg:w-80 xl:w-96 bg-white border-r border-surface-border flex-shrink-0 p-8 lg:p-10 flex flex-col">
+            <div class="mb-8">
+                <div class="inline-flex items-center gap-2 bg-accent/10 text-accent px-3 py-1.5 rounded-full text-xs font-semibold mb-4">
+                    <i class="fa-solid fa-sparkles text-xs"></i>
+                    Company Onboarding
+                </div>
+                <h1 class="text-xl font-bold text-brand-900 leading-tight">Get your account verified</h1>
+                <p class="text-sm text-brand-500 mt-2 leading-relaxed">Complete the steps below to activate your IDVerify Enterprise account and start running verifications.</p>
+            </div>
+
+            <!-- Steps Progress -->
+            <div id="steps-progress" class="space-y-1 flex-1">
+
+                <div id="sidebar-step-1" class="step-item flex items-start gap-4 p-3 rounded-lg bg-accent/5 cursor-pointer" onclick="goToStep(1)">
+                    <div class="step-circle w-8 h-8 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="text-white text-xs font-bold">1</span>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-brand-900">Professional Type</div>
+                        <div class="text-xs text-brand-500 mt-0.5">Select your profession</div>
+                    </div>
+                </div>
+
+                <div class="flex justify-start pl-7">
+                    <div class="w-0.5 h-4 bg-brand-200 ml-1"></div>
+                </div>
+
+                <div id="sidebar-step-2" class="step-item flex items-start gap-4 p-3 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors" onclick="goToStep(2)">
+                    <div class="step-circle w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="text-brand-400 text-xs font-bold">2</span>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-brand-400">Company Registration</div>
+                        <div class="text-xs text-brand-400 mt-0.5">Upload registration document</div>
+                    </div>
+                </div>
+
+                <div class="flex justify-start pl-7">
+                    <div class="w-0.5 h-4 bg-brand-200 ml-1"></div>
+                </div>
+
+                <div id="sidebar-step-3" class="step-item flex items-start gap-4 p-3 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors" onclick="goToStep(3)">
+                    <div class="step-circle w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="text-brand-400 text-xs font-bold">3</span>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-brand-400">Professional License</div>
+                        <div class="text-xs text-brand-400 mt-0.5">Upload your license document</div>
+                    </div>
+                </div>
+
+                <div class="flex justify-start pl-7">
+                    <div class="w-0.5 h-4 bg-brand-200 ml-1"></div>
+                </div>
+
+                <div id="sidebar-step-4" class="step-item flex items-start gap-4 p-3 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors" onclick="goToStep(4)">
+                    <div class="step-circle w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="text-brand-400 text-xs font-bold">4</span>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-brand-400">Service Agreement</div>
+                        <div class="text-xs text-brand-400 mt-0.5">Review & accept terms</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Box -->
+            <div id="sidebar-info" class="mt-8 bg-brand-50 rounded-xl p-4 border border-brand-100">
+                <div class="flex items-start gap-3">
+                    <div class="w-7 h-7 rounded-full bg-white border border-brand-200 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-lock text-brand-500 text-xs"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-brand-700 mb-1">Secure & Encrypted</div>
+                        <div class="text-xs text-brand-500 leading-relaxed">All documents are encrypted in transit and at rest. Your data is never shared with third parties without consent.</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Content Area -->
+        <div id="onboarding-content" class="flex-1 flex flex-col items-center justify-start py-10 px-6 lg:px-12 xl:px-20 overflow-y-auto">
+
+            <!-- Step Progress Bar (Mobile) -->
+            <div class="w-full max-w-2xl mb-6 lg:hidden">
+                <div class="flex items-center justify-between text-xs text-brand-500 mb-2">
+                    <span>Step <span id="mobile-step-num">1</span> of 4</span>
+                    <span id="mobile-step-label" class="font-medium text-brand-700">Professional Type</span>
+                </div>
+                <div class="w-full h-1.5 bg-brand-100 rounded-full overflow-hidden">
+                    <div id="mobile-progress-bar" class="h-full bg-accent rounded-full transition-all duration-500" style="width: 25%"></div>
+                </div>
+            </div>
+
+            <!-- ======================== STEP 1: Professional Type ======================== -->
+            <div id="step-1" class="w-full max-w-2xl panel-slide">
+                <div class="mb-8">
+                    <div class="text-xs font-semibold text-accent uppercase tracking-wider mb-2">Step 1 of 4</div>
+                    <h2 class="text-2xl font-bold text-brand-900">Select your professional type</h2>
+                    <p class="text-brand-500 mt-2 text-sm leading-relaxed">IDVerify Enterprise is currently available to licensed professionals. Please select the category that best describes your practice.</p>
+                </div>
+
+                <div id="professional-type-cards" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+
+                    <div id="card-lawyer" class="professional-card rounded-xl p-6" onclick="selectProfessional('lawyer')">
+                        <div class="w-12 h-12 bg-brand-900 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-scale-balanced text-white text-lg"></i>
+                        </div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-brand-900">Lawyer</h3>
+                            <div id="check-lawyer" class="hidden w-5 h-5 rounded-full bg-accent flex items-center justify-center">
+                                <i class="fa-solid fa-check text-white text-xs"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-brand-500 leading-relaxed">Solicitors, advocates, barristers, and other licensed legal practitioners conducting client due diligence.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs bg-brand-100 text-brand-600 px-2 py-1 rounded-md">KYC/AML</span>
+                            <span class="text-xs bg-brand-100 text-brand-600 px-2 py-1 rounded-md">Client Verification</span>
+                        </div>
+                    </div>
+
+                    <div id="card-secretary" class="professional-card rounded-xl p-6" onclick="selectProfessional('secretary')">
+                        <div class="w-12 h-12 bg-brand-700 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-building-columns text-white text-lg"></i>
+                        </div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-brand-900">Company Secretary</h3>
+                            <div id="check-secretary" class="hidden w-5 h-5 rounded-full bg-accent flex items-center justify-center">
+                                <i class="fa-solid fa-check text-white text-xs"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-brand-500 leading-relaxed">Chartered company secretaries and corporate governance professionals managing regulatory compliance.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs bg-brand-100 text-brand-600 px-2 py-1 rounded-md">Corporate Governance</span>
+                            <span class="text-xs bg-brand-100 text-brand-600 px-2 py-1 rounded-md">Compliance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="profession-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-sm text-red-600">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    Please select your professional type to continue.
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="nextStep(1)" class="bg-accent hover:bg-accent-hover text-white font-medium py-2.5 px-6 rounded-lg text-sm transition-colors flex items-center gap-2 shadow-sm">
+                        Continue
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ======================== STEP 2: Company Registration ======================== -->
+            <div id="step-2" class="hidden w-full max-w-2xl panel-slide">
+                <div class="mb-8">
+                    <div class="text-xs font-semibold text-accent uppercase tracking-wider mb-2">Step 2 of 4</div>
+                    <h2 class="text-2xl font-bold text-brand-900">Company Registration Document</h2>
+                    <p class="text-brand-500 mt-2 text-sm leading-relaxed">Upload your official company registration certificate or incorporation document. This is required to verify your organization's legal standing.</p>
+                </div>
+
+                <div id="company-reg-info" class="mb-6 bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-circle-info text-accent mt-0.5 text-sm flex-shrink-0"></i>
+                    <div class="text-sm text-brand-700">
+                        <span class="font-semibold">Accepted documents:</span> Certificate of Incorporation, Business Registration Certificate, or equivalent government-issued company document.
+                    </div>
+                </div>
+
+                <div id="upload-company-reg" class="upload-zone rounded-xl p-10 text-center mb-6 cursor-pointer" onclick="triggerUpload('company-reg-input')" ondragover="handleDragOver(event, 'upload-company-reg')" ondragleave="handleDragLeave('upload-company-reg')" ondrop="handleDrop(event, 'company-reg-input', 'upload-company-reg', 'company-reg-preview')">
+                    <input type="file" id="company-reg-input" class="hidden" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(this, 'upload-company-reg', 'company-reg-preview')">
+                    <div id="company-reg-upload-content">
+                        <div class="w-16 h-16 bg-brand-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-cloud-arrow-up text-brand-400 text-2xl"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-brand-700 mb-1">Drop your file here, or <span class="text-accent underline cursor-pointer">browse</span></div>
+                        <div class="text-xs text-brand-400">PDF, JPG, or PNG — max 10 MB</div>
+                    </div>
+                    <div id="company-reg-preview" class="hidden">
+                        <div class="w-14 h-14 bg-success/10 rounded-xl flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-file-circle-check text-success text-2xl"></i>
+                        </div>
+                        <div id="company-reg-filename" class="text-sm font-semibold text-brand-900 mb-1"></div>
+                        <div id="company-reg-filesize" class="text-xs text-brand-400 mb-3"></div>
+                        <button type="button" class="text-xs text-accent hover:underline" onclick="removeFile(event, 'company-reg-input', 'upload-company-reg', 'company-reg-preview')">Remove & re-upload</button>
+                    </div>
+                </div>
+
+                <div class="bg-brand-50 rounded-xl p-4 border border-brand-100 mb-8">
+                    <div class="text-xs font-semibold text-brand-600 mb-3 uppercase tracking-wider">Document Requirements</div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-solid fa-check text-success text-xs w-4"></i>
+                            Document must be issued by the relevant government authority
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-solid fa-check text-success text-xs w-4"></i>
+                            Must show company name, registration number, and date
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-solid fa-check text-success text-xs w-4"></i>
+                            Document must not be expired or revoked
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-solid fa-check text-success text-xs w-4"></i>
+                            All text must be clearly legible
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button onclick="prevStep(2)" class="text-brand-500 hover:text-brand-900 font-medium py-2.5 px-5 rounded-lg text-sm transition-colors flex items-center gap-2 border border-brand-200 hover:border-brand-300 bg-white">
+                        <i class="fa-solid fa-arrow-left text-xs"></i>
+                        Back
+                    </button>
+                    <button onclick="nextStep(2)" class="bg-accent hover:bg-accent-hover text-white font-medium py-2.5 px-6 rounded-lg text-sm transition-colors flex items-center gap-2 shadow-sm">
+                        Continue
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ======================== STEP 3: Professional License ======================== -->
+            <div id="step-3" class="hidden w-full max-w-2xl panel-slide">
+                <div class="mb-8">
+                    <div class="text-xs font-semibold text-accent uppercase tracking-wider mb-2">Step 3 of 4</div>
+                    <h2 class="text-2xl font-bold text-brand-900">Professional License</h2>
+                    <p id="step3-subtitle" class="text-brand-500 mt-2 text-sm leading-relaxed">Upload your valid professional license or practicing certificate issued by the relevant regulatory body.</p>
+                </div>
+
+                <div id="license-type-info" class="mb-6 bg-amber-50 border border-amber-100 rounded-xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-certificate text-warning mt-0.5 text-sm flex-shrink-0"></i>
+                    <div class="text-sm text-brand-700">
+                        <span class="font-semibold" id="license-info-title">Professional License Required:</span>
+                        <span id="license-info-text"> Please upload your current practicing certificate or license issued by the relevant bar association or law society.</span>
+                    </div>
+                </div>
+
+                <div id="upload-license" class="upload-zone rounded-xl p-10 text-center mb-6 cursor-pointer" onclick="triggerUpload('license-input')" ondragover="handleDragOver(event, 'upload-license')" ondragleave="handleDragLeave('upload-license')" ondrop="handleDrop(event, 'license-input', 'upload-license', 'license-preview')">
+                    <input type="file" id="license-input" class="hidden" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(this, 'upload-license', 'license-preview')">
+                    <div id="license-upload-content">
+                        <div class="w-16 h-16 bg-brand-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-cloud-arrow-up text-brand-400 text-2xl"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-brand-700 mb-1">Drop your file here, or <span class="text-accent underline cursor-pointer">browse</span></div>
+                        <div class="text-xs text-brand-400">PDF, JPG, or PNG — max 10 MB</div>
+                    </div>
+                    <div id="license-preview" class="hidden">
+                        <div class="w-14 h-14 bg-success/10 rounded-xl flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-file-circle-check text-success text-2xl"></i>
+                        </div>
+                        <div id="license-filename" class="text-sm font-semibold text-brand-900 mb-1"></div>
+                        <div id="license-filesize" class="text-xs text-brand-400 mb-3"></div>
+                        <button type="button" class="text-xs text-accent hover:underline" onclick="removeFile(event, 'license-input', 'upload-license', 'license-preview')">Remove & re-upload</button>
+                    </div>
+                </div>
+
+                <div class="bg-brand-50 rounded-xl p-4 border border-brand-100 mb-8">
+                    <div class="text-xs font-semibold text-brand-600 mb-3 uppercase tracking-wider">License Requirements</div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-solid fa-check text-success text-xs w-4"></i>
+                            Must be issued by the relevant regulatory or professional body
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-solid fa-check text-success text-xs w-4"></i>
+                            License must be current and not expired
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-solid fa-check text-success text-xs w-4"></i>
+                            Must display your full name and license/registration number
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-solid fa-check text-success text-xs w-4"></i>
+                            Certified copies are acceptable
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button onclick="prevStep(3)" class="text-brand-500 hover:text-brand-900 font-medium py-2.5 px-5 rounded-lg text-sm transition-colors flex items-center gap-2 border border-brand-200 hover:border-brand-300 bg-white">
+                        <i class="fa-solid fa-arrow-left text-xs"></i>
+                        Back
+                    </button>
+                    <button onclick="nextStep(3)" class="bg-accent hover:bg-accent-hover text-white font-medium py-2.5 px-6 rounded-lg text-sm transition-colors flex items-center gap-2 shadow-sm">
+                        Continue
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ======================== STEP 4: Service Agreement ======================== -->
+            <div id="step-4" class="hidden w-full max-w-2xl panel-slide">
+                <div class="mb-8">
+                    <div class="text-xs font-semibold text-accent uppercase tracking-wider mb-2">Step 4 of 4</div>
+                    <h2 class="text-2xl font-bold text-brand-900">Service Agreement</h2>
+                    <p class="text-brand-500 mt-2 text-sm leading-relaxed">Please read the service agreement carefully and check all boxes below to confirm your acceptance of the terms.</p>
+                </div>
+
+                <!-- Agreement Document -->
+                <div id="agreement-document" class="bg-white border border-surface-border rounded-xl mb-6 overflow-hidden shadow-soft">
+                    <div class="flex items-center justify-between px-5 py-3 bg-brand-50 border-b border-surface-border">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-file-contract text-brand-500 text-sm"></i>
+                            <span class="text-sm font-semibold text-brand-700">IDVerify Enterprise Service Agreement</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-brand-400">v2.4 — June 2025</span>
+                            <a href="#" class="text-xs text-accent hover:underline flex items-center gap-1">
+                                <i class="fa-solid fa-download text-xs"></i>
+                                Download PDF
+                            </a>
+                        </div>
+                    </div>
+                    <div id="agreement-text" class="p-6 h-64 overflow-y-auto text-sm text-brand-600 leading-relaxed space-y-4" onscroll="checkScrollEnd(this)">
+                        <p class="font-semibold text-brand-900 text-base">IDVerify Enterprise — Service Agreement & Terms of Use</p>
+
+                        <p><span class="font-medium text-brand-800">1. Acceptance of Terms.</span> By accessing or using the IDVerify Enterprise platform ("Service"), the professional entity ("Client") agrees to be bound by this Service Agreement ("Agreement"), including the Privacy Policy and all referenced policies. If you do not agree, you may not use the Service.</p>
+
+                        <p><span class="font-medium text-brand-800">2. Eligibility & Professional Use.</span> The Service is available exclusively to licensed legal professionals (lawyers, solicitors, advocates, barristers) and chartered company secretaries. By proceeding, you represent and warrant that you hold a valid and current professional license in your jurisdiction and that your use of the Service complies with all applicable professional regulations and ethical obligations.</p>
+
+                        <p><span class="font-medium text-brand-800">3. Permitted Use.</span> The Client may use the Service solely for lawful identity verification purposes in connection with professional duties including client due diligence, KYC/AML compliance, and corporate governance activities. Any use of the Service for unlawful purposes, including but not limited to facilitating fraud, money laundering, or unauthorized data collection, is strictly prohibited and may result in immediate account termination and reporting to relevant authorities.</p>
+
+                        <p><span class="font-medium text-brand-800">4. Data Protection & Privacy.</span> The Client acknowledges that all personal data processed through the Service is subject to applicable data protection legislation, including but not limited to the General Data Protection Regulation (GDPR) and any local equivalents. The Client agrees to act as a data controller in respect of any personal data of their clients and to ensure that appropriate consents and legal bases are in place before initiating any verification session. IDVerify acts as a data processor on behalf of the Client.</p>
+
+                        <p><span class="font-medium text-brand-800">5. Confidentiality.</span> Both parties agree to maintain the confidentiality of all information exchanged under this Agreement. The Client shall not disclose verification results, session data, or any output of the Service to unauthorized third parties. IDVerify shall not disclose Client data except as required by law or with the Client's express written consent.</p>
+
+                        <p><span class="font-medium text-brand-800">6. Intellectual Property.</span> All intellectual property rights in the Service, including software, algorithms, and documentation, remain the exclusive property of IDVerify. No license to any intellectual property is granted other than the limited right to access and use the Service as described herein.</p>
+
+                        <p><span class="font-medium text-brand-800">7. Limitation of Liability.</span> To the maximum extent permitted by law, IDVerify's total liability to the Client for any claim arising under or in connection with this Agreement shall not exceed the total fees paid by the Client in the three months preceding the claim. IDVerify shall not be liable for any indirect, consequential, or special damages.</p>
+
+                        <p><span class="font-medium text-brand-800">8. Termination.</span> Either party may terminate this Agreement with 30 days written notice. IDVerify reserves the right to immediately suspend or terminate access if the Client breaches any material term of this Agreement, including any misrepresentation of professional status.</p>
+
+                        <p><span class="font-medium text-brand-800">9. Governing Law.</span> This Agreement shall be governed by and construed in accordance with the laws of the jurisdiction in which IDVerify is incorporated, without regard to conflict of law principles.</p>
+
+                        <p><span class="font-medium text-brand-800">10. Amendments.</span> IDVerify reserves the right to amend this Agreement at any time. Clients will be notified of material changes with at least 14 days' notice. Continued use of the Service after such notice constitutes acceptance of the amended terms.</p>
+
+                        <p class="text-brand-400 text-xs border-t border-surface-border pt-4 mt-4">By checking the boxes below, you acknowledge that you have read, understood, and agree to be bound by this Service Agreement, the Privacy Policy, and all other policies incorporated herein by reference.</p>
+                    </div>
+                    <div id="scroll-notice" class="flex items-center gap-2 px-5 py-2.5 bg-amber-50 border-t border-amber-100 text-xs text-amber-700">
+                        <i class="fa-solid fa-arrow-down text-xs animate-bounce"></i>
+                        Please scroll to the bottom of the agreement before accepting
+                    </div>
+                </div>
+
+                <!-- Acceptance Checkboxes -->
+                <div id="agreement-checkboxes" class="bg-white border border-surface-border rounded-xl p-6 shadow-soft mb-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-clipboard-check text-accent text-sm"></i>
+                        <span class="text-sm font-semibold text-brand-700">Acceptance Confirmation</span>
+                    </div>
+                    <div class="space-y-4">
+                        <label class="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-brand-50 transition-colors">
+                            <input type="checkbox" id="check-tos" class="checkbox-custom mt-0.5">
+                            <div>
+                                <span class="text-sm text-brand-700 font-medium leading-relaxed">Terms of Service & Privacy Policy</span>
+                                <p class="text-xs text-brand-500 mt-0.5">I have read and agree to the <a href="#" class="text-accent hover:underline font-medium">Terms of Service</a> and <a href="#" class="text-accent hover:underline font-medium">Privacy Policy</a>.</p>
+                            </div>
+                        </label>
+                        <div class="border-t border-brand-100"></div>
+                        <label class="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-brand-50 transition-colors">
+                            <input type="checkbox" id="check-professional" class="checkbox-custom mt-0.5">
+                            <div>
+                                <span class="text-sm text-brand-700 font-medium leading-relaxed">Professional Status & Document Authenticity</span>
+                                <p class="text-xs text-brand-500 mt-0.5">I confirm that I am a licensed professional and that all documents submitted are authentic and accurate.</p>
+                            </div>
+                        </label>
+                        <div class="border-t border-brand-100"></div>
+                        <label class="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-brand-50 transition-colors">
+                            <input type="checkbox" id="check-data" class="checkbox-custom mt-0.5">
+                            <div>
+                                <span class="text-sm text-brand-700 font-medium leading-relaxed">Data Controller Obligations</span>
+                                <p class="text-xs text-brand-500 mt-0.5">I understand my obligations as a data controller under applicable data protection legislation.</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Acceptance Status -->
+                <div id="acceptance-status" class="mb-6 p-4 bg-brand-50 border border-brand-100 rounded-xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-sm text-brand-600">
+                            <i class="fa-regular fa-circle-dot text-brand-400 text-xs"></i>
+                            <span id="acceptance-status-text">Please check all boxes above to proceed</span>
+                        </div>
+                        <div id="acceptance-count" class="text-xs font-semibold text-brand-400">0 / 3 accepted</div>
+                    </div>
+                    <div class="mt-2 w-full h-1 bg-brand-200 rounded-full overflow-hidden">
+                        <div id="acceptance-progress" class="h-full bg-accent rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div id="sign-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-sm text-red-600">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span id="sign-error-text">Please check all required boxes before submitting.</span>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button onclick="prevStep(4)" class="text-brand-500 hover:text-brand-900 font-medium py-2.5 px-5 rounded-lg text-sm transition-colors flex items-center gap-2 border border-brand-200 hover:border-brand-300 bg-white">
+                        <i class="fa-solid fa-arrow-left text-xs"></i>
+                        Back
+                    </button>
+                    <button onclick="submitOnboarding()" class="bg-accent hover:bg-accent-hover text-white font-medium py-2.5 px-8 rounded-lg text-sm transition-colors flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-check-double text-xs"></i>
+                        Accept & Submit Application
+                    </button>
+                </div>
+            </div>
+
+            <!-- ======================== SUCCESS STATE ======================== -->
+            <div id="step-success" class="hidden w-full max-w-2xl text-center panel-slide py-10">
+                <div class="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-circle-check text-success text-4xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-brand-900 mb-3">Application Submitted!</h2>
+                <p class="text-brand-500 text-sm leading-relaxed max-w-md mx-auto mb-8">Thank you for completing the onboarding process. Our compliance team will review your documents and service agreement. You'll receive an email confirmation within <span class="font-semibold text-brand-700">1–2 business days</span>.</p>
+
+                <div class="bg-white border border-surface-border rounded-xl p-6 text-left mb-8 shadow-soft">
+                    <div class="text-xs font-semibold text-brand-500 uppercase tracking-wider mb-4">Submission Summary</div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-brand-500 flex items-center gap-2"><i class="fa-solid fa-user-tie w-4 text-center text-brand-400"></i> Professional Type</span>
+                            <span id="summary-type" class="font-medium text-brand-900">—</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-brand-500 flex items-center gap-2"><i class="fa-solid fa-file w-4 text-center text-brand-400"></i> Company Registration</span>
+                            <span class="font-medium text-success flex items-center gap-1"><i class="fa-solid fa-check text-xs"></i> Uploaded</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-brand-500 flex items-center gap-2"><i class="fa-solid fa-certificate w-4 text-center text-brand-400"></i> Professional License</span>
+                            <span class="font-medium text-success flex items-center gap-1"><i class="fa-solid fa-check text-xs"></i> Uploaded</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-brand-500 flex items-center gap-2"><i class="fa-solid fa-clipboard-check w-4 text-center text-brand-400"></i> Service Agreement</span>
+                            <span class="font-medium text-success flex items-center gap-1"><i class="fa-solid fa-check text-xs"></i> Accepted</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="#" class="bg-accent hover:bg-accent-hover text-white font-medium py-2.5 px-6 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-house text-xs"></i>
+                        Go to Dashboard
+                    </a>
+                    <a href="#" class="border border-brand-200 hover:border-brand-300 bg-white text-brand-700 font-medium py-2.5 px-6 rounded-lg text-sm transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-regular fa-envelope text-xs"></i>
+                        Check Email
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        let currentStep = 1;
+        let selectedProfessional = null;
+        let scrolledToBottom = false;
+
+        function selectProfessional(type) {
+            selectedProfessional = type;
+            const cards = ['lawyer', 'secretary'];
+            cards.forEach(c => {
+                const card = document.getElementById('card-' + c);
+                const check = document.getElementById('check-' + c);
+                if (c === type) {
+                    card.classList.add('selected');
+                    check.classList.remove('hidden');
+                    check.classList.add('flex');
+                } else {
+                    card.classList.remove('selected');
+                    check.classList.add('hidden');
+                    check.classList.remove('flex');
+                }
+            });
+            document.getElementById('profession-error').classList.add('hidden');
+
+            if (type === 'lawyer') {
+                document.getElementById('license-info-title').textContent = 'Lawyer License Required:';
+                document.getElementById('license-info-text').textContent = ' Please upload your current practicing certificate or license issued by the relevant bar association or law society.';
+            } else {
+                document.getElementById('license-info-title').textContent = 'Company Secretary License Required:';
+                document.getElementById('license-info-text').textContent = ' Please upload your current practicing certificate or license issued by the relevant chartered secretaries institute or regulatory body.';
+            }
+        }
+
+        function checkScrollEnd(el) {
+            const threshold = 30;
+            if (el.scrollTop + el.clientHeight >= el.scrollHeight - threshold) {
+                scrolledToBottom = true;
+                document.getElementById('scroll-notice').classList.add('hidden');
+            }
+        }
+
+        // Live checkbox progress tracking
+        function updateAcceptanceProgress() {
+            const tos = document.getElementById('check-tos').checked;
+            const prof = document.getElementById('check-professional').checked;
+            const data = document.getElementById('check-data').checked;
+            const count = [tos, prof, data].filter(Boolean).length;
+            const pct = (count / 3) * 100;
+
+            document.getElementById('acceptance-count').textContent = count + ' / 3 accepted';
+            document.getElementById('acceptance-progress').style.width = pct + '%';
+
+            const statusText = document.getElementById('acceptance-status-text');
+            const statusIcon = document.querySelector('#acceptance-status .fa-regular, #acceptance-status .fa-solid');
+
+            if (count === 3) {
+                statusText.textContent = 'All terms accepted — ready to submit';
+                statusText.classList.remove('text-brand-600');
+                statusText.classList.add('text-success');
+                document.getElementById('acceptance-count').classList.remove('text-brand-400');
+                document.getElementById('acceptance-count').classList.add('text-success');
+                document.getElementById('acceptance-progress').classList.remove('bg-accent');
+                document.getElementById('acceptance-progress').classList.add('bg-success');
+            } else {
+                statusText.textContent = 'Please check all boxes above to proceed';
+                statusText.classList.add('text-brand-600');
+                statusText.classList.remove('text-success');
+                document.getElementById('acceptance-count').classList.add('text-brand-400');
+                document.getElementById('acceptance-count').classList.remove('text-success');
+                document.getElementById('acceptance-progress').classList.add('bg-accent');
+                document.getElementById('acceptance-progress').classList.remove('bg-success');
+            }
+        }
+
+        window.addEventListener('load', function() {
+            ['check-tos', 'check-professional', 'check-data'].forEach(id => {
+                document.getElementById(id).addEventListener('change', updateAcceptanceProgress);
+            });
+        });
+
+        function goToStep(step) {
+            if (step > currentStep) return;
+            showStep(step);
+        }
+
+        function nextStep(from) {
+            if (from === 1) {
+                if (!selectedProfessional) {
+                    document.getElementById('profession-error').classList.remove('hidden');
+                    return;
+                }
+            }
+            showStep(from + 1);
+        }
+
+        function prevStep(from) {
+            showStep(from - 1);
+        }
+
+        function showStep(step) {
+            for (let i = 1; i <= 4; i++) {
+                const el = document.getElementById('step-' + i);
+                if (el) el.classList.add('hidden');
+            }
+            const target = document.getElementById('step-' + step);
+            if (target) {
+                target.classList.remove('hidden');
+                target.classList.add('panel-slide');
+                setTimeout(() => target.classList.remove('panel-slide'), 400);
+            }
+            currentStep = step;
+            updateSidebarProgress(step);
+            updateMobileProgress(step);
+        }
+
+        function updateSidebarProgress(step) {
+            for (let i = 1; i <= 4; i++) {
+                const sidebarItem = document.getElementById('sidebar-step-' + i);
+                const circle = sidebarItem.querySelector('.step-circle');
+                const label = sidebarItem.querySelector('div > div:first-child');
+                const sub = sidebarItem.querySelector('div > div:last-child');
+
+                if (i < step) {
+                    sidebarItem.classList.remove('bg-accent/5');
+                    sidebarItem.classList.add('hover:bg-brand-50');
+                    circle.className = 'step-circle w-8 h-8 rounded-full bg-success flex items-center justify-center flex-shrink-0 mt-0.5';
+                    circle.innerHTML = '<i class="fa-solid fa-check text-white text-xs"></i>';
+                    label.className = 'text-sm font-semibold text-brand-700';
+                    sub.className = 'text-xs text-brand-400 mt-0.5';
+                } else if (i === step) {
+                    sidebarItem.classList.add('bg-accent/5');
+                    sidebarItem.classList.remove('hover:bg-brand-50');
+                    circle.className = 'step-circle w-8 h-8 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5';
+                    circle.innerHTML = '<span class="text-white text-xs font-bold">' + i + '</span>';
+                    label.className = 'text-sm font-semibold text-brand-900';
+                    sub.className = 'text-xs text-brand-500 mt-0.5';
+                } else {
+                    sidebarItem.classList.remove('bg-accent/5');
+                    sidebarItem.classList.add('hover:bg-brand-50');
+                    circle.className = 'step-circle w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5';
+                    circle.innerHTML = '<span class="text-brand-400 text-xs font-bold">' + i + '</span>';
+                    label.className = 'text-sm font-semibold text-brand-400';
+                    sub.className = 'text-xs text-brand-400 mt-0.5';
+                }
+            }
+        }
+
+        function updateMobileProgress(step) {
+            const labels = ['Professional Type', 'Company Registration', 'Professional License', 'Service Agreement'];
+            document.getElementById('mobile-step-num').textContent = step;
+            document.getElementById('mobile-step-label').textContent = labels[step - 1];
+            document.getElementById('mobile-progress-bar').style.width = (step / 4 * 100) + '%';
+        }
+
+        function triggerUpload(inputId) {
+            document.getElementById(inputId).click();
+        }
+
+        function handleFileSelect(input, zoneId, previewId) {
+            if (!input.files || !input.files[0]) return;
+            const file = input.files[0];
+            showFilePreview(file, zoneId, previewId);
+        }
+
+        function showFilePreview(file, zoneId, previewId) {
+            const zone = document.getElementById(zoneId);
+            const preview = document.getElementById(previewId);
+            const uploadContent = zone.querySelector('[id$="-upload-content"], [id$="-content"]');
+
+            const filenameEl = preview.querySelector('[id$="-filename"]');
+            const filesizeEl = preview.querySelector('[id$="-filesize"]');
+
+            if (filenameEl) filenameEl.textContent = file.name;
+            if (filesizeEl) {
+                const size = file.size < 1024 * 1024
+                    ? (file.size / 1024).toFixed(1) + ' KB'
+                    : (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                filesizeEl.textContent = size;
+            }
+
+            if (uploadContent) uploadContent.classList.add('hidden');
+            preview.classList.remove('hidden');
+            zone.classList.add('uploaded');
+        }
+
+        function removeFile(event, inputId, zoneId, previewId) {
+            event.stopPropagation();
+            const input = document.getElementById(inputId);
+            const zone = document.getElementById(zoneId);
+            const preview = document.getElementById(previewId);
+            const uploadContent = zone.querySelector('[id$="-upload-content"], [id$="-content"]');
+
+            input.value = '';
+            preview.classList.add('hidden');
+            if (uploadContent) uploadContent.classList.remove('hidden');
+            zone.classList.remove('uploaded');
+        }
+
+        function handleDragOver(e, zoneId) {
+            e.preventDefault();
+            document.getElementById(zoneId).classList.add('dragover');
+        }
+
+        function handleDragLeave(zoneId) {
+            document.getElementById(zoneId).classList.remove('dragover');
+        }
+
+        function handleDrop(e, inputId, zoneId, previewId) {
+            e.preventDefault();
+            document.getElementById(zoneId).classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files && files[0]) {
+                showFilePreview(files[0], zoneId, previewId);
+            }
+        }
+
+        function submitOnboarding() {
+            const tos = document.getElementById('check-tos').checked;
+            const prof = document.getElementById('check-professional').checked;
+            const data = document.getElementById('check-data').checked;
+            const errEl = document.getElementById('sign-error');
+            const errText = document.getElementById('sign-error-text');
+
+            if (!tos || !prof || !data) {
+                errText.textContent = 'Please check all required boxes to proceed.';
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            errEl.classList.add('hidden');
+
+            const summaryType = selectedProfessional === 'lawyer' ? 'Lawyer' : 'Company Secretary';
+            document.getElementById('summary-type').textContent = summaryType;
+
+            for (let i = 1; i <= 4; i++) {
+                const el = document.getElementById('step-' + i);
+                if (el) el.classList.add('hidden');
+            }
+            const success = document.getElementById('step-success');
+            success.classList.remove('hidden');
+            success.classList.add('panel-slide');
+            setTimeout(() => success.classList.remove('panel-slide'), 400);
+
+            for (let i = 1; i <= 4; i++) {
+                const sidebarItem = document.getElementById('sidebar-step-' + i);
+                const circle = sidebarItem.querySelector('.step-circle');
+                circle.className = 'step-circle w-8 h-8 rounded-full bg-success flex items-center justify-center flex-shrink-0 mt-0.5';
+                circle.innerHTML = '<i class="fa-solid fa-check text-white text-xs"></i>';
+            }
+        }
+    </script>
+</body>
+</html>
